@@ -147,14 +147,14 @@ function FormRegistration({ idCourse }) {
 
   async function handleNextButton() {
     if (!formData.disabledButton && formData.disabledButton === false) {
-      if(actualSection === 1 ){
-        const respGET = await api.get(`/candidate/checkCandidate?rg=${formData.rg}`);
-        if(!respGET.data){
+      if(actualSection === 1){
+        // const respGET = await api.get(`/candidate/checkCandidate?rg=${formData.rg}`);
+        // if(!respGET.data){
            setActualSection(actualSection+1);
            console.log("Candidato não encontrado")
-        }
-        else
-           alert("Este RG já está registrado!")
+        // }
+        // else
+          //  alert("Este RG já está registrado!")
       }
       
       else if (actualSection < sections.length-1) {
@@ -218,10 +218,10 @@ function FormRegistration({ idCourse }) {
         const dataToSave = { name, rg, cpf, email, privateSpace, registrationFee };
         console.log('DADOS A SEREM SALVOS NO BANCO', formData);
         
-        const newCandidate = await api.post('/candidate/createCandidate',
-          JSON.stringify(formData), { headers: { 'Content-Type': 'application/json'}}  
-        );
-        console.log("Novo candidato Criado", newCandidate);
+        // const newCandidate = await api.post('/candidate/createCandidate',
+          // JSON.stringify(formData), { headers: { 'Content-Type': 'application/json'}}  
+        // );
+        // console.log("Novo candidato Criado", newCandidate);
 
         setActualSection(6);
     }
