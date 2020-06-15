@@ -34,7 +34,7 @@ function RegistrationFeeInputs({ idCourse }) {
     var fee = e.target.value;
 
     if (fee === "sim") setRegistrationFee({...registrationFee, exemptionRequest: fee});
-    else setRegistrationFee({...registrationFee, exemptionRequest: fee, justification: ""});
+    else setRegistrationFee({...registrationFee, exemptionRequest: fee, exemptionJustification: ""});
   }
 
   return (
@@ -56,13 +56,13 @@ function RegistrationFeeInputs({ idCourse }) {
       <ErrorMessage>Esse campo é obrigatório.</ErrorMessage> : null}
       
       {formData.exemptionRequest === "sim" ?
-      <><label htmlFor="justification" id="labelJustification">Justificativa da solicitação de isenção <ast>*</ast></label>
-      <p id="textJustification">Descreva brevemente o motivo da sua necessidade de isenção, ou seja, de não pagar a taxa de inscrição. (máximo 300 caracteres)</p>
+      <><label htmlFor="exemptionJustification" id="labelexemptionJustification">Justificativa da solicitação de isenção <ast>*</ast></label>
+      <p id="textexemptionJustification">Descreva brevemente o motivo da sua necessidade de isenção, ou seja, de não pagar a taxa de inscrição. (máximo 300 caracteres)</p>
       <input
-          type="text" id="justification" maxLength="300" placeholder={formData.justification}
-          onChange={e => {const newData = {...registrationFee, justification: e.target.value}; setRegistrationFee(newData);}}
+          type="text" id="exemptionJustification" maxLength="300" placeholder={formData.exemptionJustification}
+          onChange={e => {const newData = {...registrationFee, exemptionJustification: e.target.value}; setRegistrationFee(newData);}}
       /></> : null}
-      {(formData.tryNext === true && (formData.exemptionRequest === "sim" && (!formData.justification || formData.justification === ""))) ? 
+      {(formData.tryNext === true && (formData.exemptionRequest === "sim" && (!formData.exemptionJustification || formData.exemptionJustification === ""))) ? 
       <ErrorMessage>Esse campo é obrigatório.</ErrorMessage> : null}
 
       {(formData.tryNext === true && formData.disabledButton === true) ? 

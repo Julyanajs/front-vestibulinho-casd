@@ -88,7 +88,7 @@ function FormRegistration({ idCourse }) {
 
       if (actualSection === 4 && formData.exemptionRequest) {
         if ((formData.exemptionRequest === "nao") 
-            || (formData.exemptionRequest === "sim" && formData.justification && formData.justification !== "")) {
+            || (formData.exemptionRequest === "sim" && formData.exemptionJustification && formData.exemptionJustification !== "")) {
                 setFormData({...formData, disabledButton: false, blockPage4: false });
             }
       }
@@ -134,7 +134,7 @@ function FormRegistration({ idCourse }) {
       }
       if (actualSection === 4 && 
         (!formData.exemptionRequest || formData.exemptionRequest === ""
-        || (formData.exemptionRequest === "sim" && !formData.justification))) {
+        || (formData.exemptionRequest === "sim" && !formData.exemptionJustification))) {
             setFormData({...formData, disabledButton: true, blockPage4: true });
       }
     }
