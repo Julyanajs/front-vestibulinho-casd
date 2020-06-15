@@ -11,7 +11,9 @@ function Dashboard({ idCourse }) {
   // 0 -> Prova ainda vai acontecer
   // 1 -> Prova aconteceu, resultado ainda não foi divulgado
   // 2 -> Resultado da prova já foi divulgado
-  // 3 -> Entrevista Socioeconômica já aconteceu
+  // 3 -> Entrevista Socioeconômica já aconteceu, resultado não divulgado
+  // 4 -> Resultado da Entrevista Socioeconômica divulgado, mas não da matrícula
+  // 5 -> Chamada para matrícula feita
   const [processSituation, setProcessSituation] = useState("0");
 
   // Informações de status do candidato
@@ -19,7 +21,7 @@ function Dashboard({ idCourse }) {
   const [status, setStatus] = useState({name: "NOME DE TESTE",
                                         registrationStatus: true,
                                         exemptionStatus: "exempted",
-                                        roomId: "1G2",
+                                        roomId: "1G1",
                                         testPresence: true,
                                         grade: 40,
                                         privateSpace: true,
@@ -41,6 +43,8 @@ function Dashboard({ idCourse }) {
         place: <>na <span>UNIP</span> (Rodovia Presidente Dutra, km 157 - 5 - Pista Sul, São José dos Campos-SP, 12240-420)</>,
         numberQuestions: 60,
         testResultDate: "DD de mês",
+        esResultDate: "DD de mês",
+        enrollResultDate: "DD de mês",
         privateSpaces: 130
       },
       "casdinho": {
@@ -50,6 +54,8 @@ function Dashboard({ idCourse }) {
         place: <>na <span>UNIP</span> (Rodovia Presidente Dutra, km 157 - 5 - Pista Sul, São José dos Campos-SP, 12240-420)</>,
         numberQuestions: 60,
         testResultDate: "DD de mês",
+        esResultDate: "DD de mês",
+        enrollResultDate: "DD de mês",
         privateSpaces: 45
       }
     }
@@ -83,6 +89,8 @@ function Dashboard({ idCourse }) {
         <option value={"1"}>Depois da prova, antes da divulgação do resultado</option>
         <option value={"2"}>Depois da divulgação do resultado, antes da ES</option>
         <option value={"3"}>Depois da ES</option>
+        <option value={"4"}>Depois do resultado da ES</option>
+        <option value={"5"}>Depois da convocação para matrícula</option>
       </select>
 
       <label>Selecionar presença na prova</label>
@@ -159,7 +167,7 @@ function Dashboard({ idCourse }) {
 
       <Section>
         <h4>Sala de prova:</h4>
-        <text>{status.roomId}</text>
+        {status.roomId === "undefined" ? <text>Não divulgado.</text> : <text>{status.roomId}</text>}
         <button className="bttnRoom" onClick={handleButton}>?</button>
       </Section>
 
@@ -217,7 +225,7 @@ function Dashboard({ idCourse }) {
 
       </> : <></>))}
 
-      {((processSituation === "2" || processSituation === "3") && status.testPresence === true) ?
+      {((processSituation === "2" || processSituation === "3" || processSituation === "4" || processSituation === "5") && status.testPresence === true) ?
       
       <><Section>
         <h4>Nota da prova teórica:</h4>
@@ -263,21 +271,35 @@ function Dashboard({ idCourse }) {
       
       <Section>
         <h4>Data:</h4>
-        <text>{status.esDate}</text>
+        {status.esDate === "undefined" ? <text>Ainda não divulgado.</text> : <text>{status.esDate}</text>}
       </Section>
 
       <Section>
         <h4>Horário:</h4>
-        <text>{status.esTime}</text>
+        {status.esTime === "undefined" ? <text>Ainda não divulgado.</text> : <text>{status.esTime}</text>}
       </Section>
 
       </> : <></>}
 
-      {(processSituation === "3" && status.testPresence === true && status.esStatus === true) ?
+      {(status.esStatus === true && status.esPresence === false && (processSituation === "3" || processSituation === "4" || processSituation === "5")) ?
       
       <><Section>
         <h4>Participação na Entrevista Socioeconômica:</h4>
-        {status.esPresence ? <text>Presente.</text> : <text>Ausente.</text>}
+        <text>Ausente.</text>
+        <button className="bttnEsPresence" onClick={handleButton}>?</button>
+      </Section>
+
+      {buttons.bttnEsPresence ?
+      <explain>Os candidatos registrados como <span>presentes</span> entregaram seus documentos na Entrevista Socioeconômica e terão seu resultado divulgado. Os candidatos <span>ausentes</span> não compareceram à Entrevista e não participam mais do Processo Seletivo.</explain>
+      : <></>}
+      
+      </> : <></>}
+
+      {(processSituation === "3" && status.testPresence === true && status.esStatus === true && status.esPresence === true) ?
+      
+      <><Section>
+        <h4>Participação na Entrevista Socioeconômica:</h4>
+        <text>Presente.</text>
         <button className="bttnEsPresence" onClick={handleButton}>?</button>
       </Section>
 
@@ -286,6 +308,24 @@ function Dashboard({ idCourse }) {
       : <></>}
 
       {status.esPresence === true ?
+
+      <><Section>
+        <h4>Resultado da Entrevista Socioeconômica:</h4>
+        <text>Não divulgado.</text>
+        <button className="bttnEsResult" onClick={handleButton}>?</button>
+      </Section>
+
+      {buttons.bttnEsResult ?
+      <><explain>Os candidatos aprovados na Entrevista Socioeconômica se encaixam no perfil socioeconômico estipulado para o curso e estão aptos para serem convocados.
+      Entretanto, essa aprovação não implica em aprovação direta para o curso. Os candidatos aprovados serão classificados de acordo com a nota na prova teórica e convocados para matrícula de acordo com a quantidade de vagas do curso.</explain>
+      <explain>Os resultados serão divulgados no dia {infos.esResultDate}.</explain></>
+      : <></>}
+
+      </> : <></>}
+
+      </> : <></>}
+
+      {(processSituation === "4" && status.testPresence === true && status.esStatus === true && status.esPresence === true) ?
       
       <><Section>
         <h4>Resultado da Entrevista Socioeconômica:</h4>
@@ -301,6 +341,22 @@ function Dashboard({ idCourse }) {
       
       <Section>
         <h4>Resultado de convocação para matrícula:</h4>
+        <text>Não divulgado.</text>
+        <button className="bttnEnroll" onClick={handleButton}>?</button>
+      </Section>
+
+      {buttons.bttnEnroll ?
+      <><explain>Os candidatos convocados devem comparecer na sede do curso (Rua Tsunessaburo Makiguti, 139, Floradas de São José, São José dos Campos - SP, 12230-084) no dia e horário a serem divulgados no site e nas redes sociais do curso para realizarem sua matrícula.
+      De acordo com a quantidade de alunos matriculados e a quantidade de vagas do curso, novas chamadas de convocação podem ser realizadas.</explain>
+      <explain>A 1ª chamada será realizada no dia {infos.enrollResultDate}.</explain></>
+      : <></>}
+
+      </> : <></>}
+
+      {(processSituation === "5" && status.testPresence === true && status.esStatus === true && status.esPresence === true) ?
+
+      <><Section>
+        <h4>Resultado de convocação para matrícula:</h4>
         {status.enrollStatus ? <text>Convocado.</text> : <text>Não convocado.</text>}
         <button className="bttnEnroll" onClick={handleButton}>?</button>
       </Section>
@@ -313,11 +369,10 @@ function Dashboard({ idCourse }) {
 
       </> : <></>}
 
-      </> : <></>}
-
       <Button>Sair</Button>
 
     </>
   );
 }
+
 export default Dashboard;
