@@ -5,7 +5,7 @@ function Confirmation() {
     return (
         <Container>
             <h3>Confirmação</h3>
-            <text>Para enviar as informações submetidas e confirmar sua inscrição, pressione o botão <span>Enviar</span>.</text>
+            <h5>Para enviar as informações submetidas e confirmar sua inscrição, pressione o botão <span>Enviar</span>.</h5>
         </Container>
     );
 }
