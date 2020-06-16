@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import CandidateStatusContext from '../../pages/CandidateStatus/context';
 
 function Login() {
@@ -10,7 +10,12 @@ function Login() {
   
   const [errors, setErrors] = useState({});
   const [showCode, setShowCode] = useState(false);
-  const { handleLogin, loginData, setLoginData } = useContext(CandidateStatusContext);
+  const { handleLogin, loginData, setLoginData, setActualSection } = useContext(CandidateStatusContext);
+
+  useEffect(() => {
+    if(localStorage.getItem('candidate') !== null)
+      setActualSection(1);
+  }, []);
 
   function handleStrings(string) {
     string = string.toUpperCase();
@@ -70,8 +75,6 @@ function Login() {
       <span style={{cursor: "pointer"}} onClick={() => console.log('chamar função que faz o back reenviar outro código para o RG definido!')}>
         Esqueci meu código de acesso
       </span>
-
-
       <button onClick={() => handleLogin()}>ENTRAR</button>
     </>
   );
