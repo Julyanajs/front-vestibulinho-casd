@@ -5,7 +5,7 @@ function FinalPage() {
     return (
         <Container>
             <h3>Inscrição confirmada</h3>
-            <text>Sua inscrição foi registrada com sucesso!</text>
+            <h5>Sua inscrição foi registrada com sucesso!</h5>
         </Container>
     );
 }

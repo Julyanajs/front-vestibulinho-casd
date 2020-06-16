@@ -50,12 +50,7 @@ export const Container = styled.div`
     text-align: justify;
   }
 
-  h4 > text {
-    color: white;
-    font-weight: 900;
-  }
-
-  text {
+  h5 {
     color: white;
     margin-block-start: 0.5em;
     margin-block-end: 0.5em;
@@ -63,26 +58,73 @@ export const Container = styled.div`
     text-align: justify;
   }
 
-  text > span {
+  h5 > span {
     font-weight: 900;
   }
 
-  text > a {
+  h5 > a {
     font-weight: 900;
     color: #00ffff;
   }
 
-  explain {
+  label {
+    font-weight: 900;
     color: white;
-    margin-block-start: 0em;
+    margin-block-start: 0.5em;
     margin-block-end: 0.5em;
-    font-size: 0.8em;
+    font-size: 1em;
     text-align: justify;
   }
 
-  explain > span {
+  label > a {
+    color: #991111;
+  }
+
+  p {
+    color: white;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+    font-size: 0.8em;
+  }
+
+  input {
+    color: ${grayCASD};
+    margin-block-start: 0.5em;
+    margin-block-end: 1.5em;
+    padding: 0.5em;
+    font-size: 1em;
+  }
+
+  select {
+    font-family: Montserrat;
+    background-color: white;
+    color: ${grayCASD};
+    margin-block-start: 0.5em;
+    margin-block-end: 1.5em;
+    padding: 0.5em;
+    font-size: 1em;
+  }
+`;
+
+export const Explain = styled.div`
+  color: white;
+  margin-block-start: 0em;
+  margin-block-end: 0.5em;
+  font-size: 0.8em;
+  text-align: justify;
+
+  span {
     font-weight: 900;
   }
+`;
+
+export const Text = styled.div`
+  color: white;
+  margin-block-start: 0.5em;
+  margin-block-end: 0.5em;
+  font-size: 1em;
+  text-align: justify;
+  font-weight: 900;
 `;
 
 export const Section = styled.div`

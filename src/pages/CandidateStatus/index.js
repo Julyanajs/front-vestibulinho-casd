@@ -48,7 +48,7 @@ function CandidateStatus({ idCourse }) {
       <Container>
         <h1>{infosCourse[0][idCourse].infoTitle}</h1>
         <h3>Área do candidato</h3>
-        <text>Nesta página, você pode consultar a situação atual da sua participação no Processo Seletivo.</text>
+        <h5>Nesta página, você pode consultar a situação atual da sua participação no Processo Seletivo.</h5>
         {sections[actualSection]}
       </Container>
     </CandidateStatusContext.Provider>

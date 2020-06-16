@@ -54,13 +54,13 @@ function Login() {
 
   return (
     <>
-      <label htmlFor="rg">RG do candidato <ast>*</ast></label>
+      <label htmlFor="rg">RG do candidato <a>*</a></label>
       <p>Escreva apenas os números.</p>
       <input 
         type="text" id="rg"
         onChange={e => handleRG(e.target.value)}
       />
-      <label htmlFor="accessCode">Código de acesso <ast>*</ast></label>
+      <label htmlFor="accessCode">Código de acesso <a>*</a></label>
       <span style={{cursor: "pointer"}} onClick={() => setShowCode(!showCode)}>{showCode ? 'esconder código' : 'mostrar código'}</span>
       <p>Enviado para o e-mail cadastrado no ato da inscrição.</p>
       <input 

@@ -7,7 +7,7 @@ import FormRegistrationContext from '../../pages/FormRegistration/context';
 const difCourse = [
   {
     "casdvest": {
-      CPFTitle: <>CPF <ast>*</ast></>
+      CPFTitle: <>CPF <a>*</a></>
     },
     "casdinho": {
       CPFTitle: <>CPF</>
@@ -167,7 +167,7 @@ function InitialDataInputs({ idCourse }) {
     <Container>
       <h3>Dados iniciais</h3>
       
-      <label htmlFor="name">Nome completo <ast>*</ast></label>
+      <label htmlFor="name">Nome completo <a>*</a></label>
       <p>Conforme consta no documento de identidade.</p>
       <input 
           type="text" id="name" placeholder={formData.name}
@@ -177,7 +177,7 @@ function InitialDataInputs({ idCourse }) {
       <ErrorMessage>Esse campo é obrigatório.</ErrorMessage> 
       : <ErrorMessage>{errors.name}</ErrorMessage>}
       
-      <label htmlFor="rg">RG <ast>*</ast></label>
+      <label htmlFor="rg">RG <a>*</a></label>
       <p>Escreva apenas os números.</p>
       <input 
           type="text" id="rg" placeholder={formData.rg}
@@ -198,7 +198,7 @@ function InitialDataInputs({ idCourse }) {
       <ErrorMessage>Esse campo é obrigatório.</ErrorMessage> 
       : <ErrorMessage>{errors.cpf}</ErrorMessage>}
 
-      <label htmlFor="email">E-mail <ast>*</ast></label>
+      <label htmlFor="email">E-mail <a>*</a></label>
       <input 
           type="email" id="email" placeholder={formData.email != "error" ? formData.email : null}
           onChange={handleEmail}
@@ -207,7 +207,7 @@ function InitialDataInputs({ idCourse }) {
       <ErrorMessage>Esse campo é obrigatório.</ErrorMessage> 
       : <ErrorMessage>{errors.email}</ErrorMessage>}
 
-      <label htmlFor="confirmEmail">Confirmar e-mail <ast>*</ast></label>
+      <label htmlFor="confirmEmail">Confirmar e-mail <a>*</a></label>
       <input 
           type="email" id="confirmEmail" placeholder={formData.email != "error" ? formData.email : null}
           onChange={handleConfirmEmail}

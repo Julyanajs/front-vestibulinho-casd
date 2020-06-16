@@ -42,7 +42,7 @@ export const Container = styled.div`
     text-align: center;
   }
 
-  text {
+  h5 {
     color: white;
     margin-block-start: 0.5em;
     margin-block-end: 0.5em;
@@ -50,11 +50,11 @@ export const Container = styled.div`
     text-align: justify;
   }
 
-  text > span {
+  h5 > span {
     font-weight: 900;
   }
 
-  text > a {
+  h5 > a {
     font-weight: 900;
     color: #00ffff;
   }
@@ -68,7 +68,7 @@ export const Container = styled.div`
     text-align: justify;
   }
 
-  label > ast {
+  label > a {
     color: #991111;
   }
 
@@ -95,6 +95,23 @@ export const Container = styled.div`
     margin-block-end: 1.5em;
     padding: 0.5em;
     font-size: 1em;
+  }
+`;
+
+export const Text = styled.div`
+  color: white; 
+  margin-block-start: 0.5em;
+  margin-block-end: 0.5em;
+  font-size: 1em;
+  text-align: justify;
+
+  span {
+    font-weight: 900;
+  }
+
+  a {
+    font-weight: 900;
+    color: #00ffff;
   }
 `;
 
