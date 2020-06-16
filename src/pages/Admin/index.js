@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import AdminContext from './context';
+import { Container } from './styles';
 import UploadButton from '../../components/UploadButton';
 import Login from '../../sections/Admin/Login';
 import DisplayData from '../../sections/Admin/DisplayData';
+import { infosCourse } from '../../utils/constants';
 
-function Admin() {
+function Admin({ idCourse }) {
   const [actualSection, setActualSection] = useState(0);
   const [loginData, setLoginData] = useState({});
 
@@ -40,7 +42,12 @@ function Admin() {
   
   return (
     <AdminContext.Provider value={{ handleLogin, loginData, setLoginData, actualSection, setActualSection }}>
-      {sections[actualSection]}
+      <Container>
+        <h1>{infosCourse[0][idCourse].infoTitle}</h1>
+        <h3>Área do admin</h3>
+        <h5>Nesta página, você pode consultar a situação atual da sua participação no Processo Seletivo.</h5>
+        {sections[actualSection]}
+      </Container>
     </AdminContext.Provider>
   );
 }

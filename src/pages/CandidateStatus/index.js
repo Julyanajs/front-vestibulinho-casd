@@ -3,17 +3,7 @@ import CandidateStatusContext from './context';
 import { Container } from './styles';
 import Login from '../../sections/Status/Login';
 import Dashboard from '../../sections/Status/Dashboard';
-
-const infosCourse = [
-  {
-    "casdvest": {
-      infoTitle: "Vestibulinho CASDvest 2021"
-    },
-    "casdinho": {
-      infoTitle: "Vestibulinho CASDinho 2021"
-    }
-  }
-];
+import { infosCourse } from '../../utils/constants';
 
 function CandidateStatus({ idCourse }) {
   const [actualSection, setActualSection] = useState(0);
