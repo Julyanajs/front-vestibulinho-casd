@@ -24,7 +24,10 @@ function CandidateStatus({ idCourse }) {
     <Dashboard idCourse={idCourse}/>
   ];
   
-  useEffect(() => console.log('loginData', loginData), [loginData]);
+  useEffect(() => {
+    if(localStorage.getItem('candidate') !== null)
+      setActualSection(1);
+  }, []);
 
   function handleLogin() {
     if(loginData.rg && loginData.rg !== "" && loginData.accessCode && loginData.accessCode !== "") {
