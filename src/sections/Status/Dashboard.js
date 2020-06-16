@@ -380,6 +380,7 @@ function Dashboard({ idCourse }) {
         </> : <></>}
 
       <Button onClick={() => { localStorage.clear(); setActualSection(actualSection - 1); }}>Sair</Button>
+      <Button onClick={() => {localStorage.clear(); setActualSection(actualSection-1);}}>Sair</Button>
 
     </>
   );
