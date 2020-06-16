@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import AdminContext from '../../pages/Admin/context';
 import { MainHeaderTableCell, SubHeaderTableCell, BodyTableCell, Title } from '../../pages/Admin/styles';
-import { makeStyles, } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
@@ -268,6 +269,7 @@ function Row(props) {
 }
 
 function DisplayData() {
+    const { actualSection, setActualSection } = useContext(AdminContext);
     const classes = useStyles();
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
@@ -290,6 +292,7 @@ function DisplayData() {
     };
 
     return (
+        <>
         <Paper className={classes.root}>
             <TableContainer className={classes.container}>
                 <Table stickyHeader aria-label="sticky table">
@@ -338,6 +341,8 @@ function DisplayData() {
                 onChangeRowsPerPage={handleChangeRowsPerPage}
             />
         </Paper>
+        <button onClick={() => {localStorage.clear(); setActualSection(actualSection-1);}}>Sair</button>
+        </>
     );
 }
 
