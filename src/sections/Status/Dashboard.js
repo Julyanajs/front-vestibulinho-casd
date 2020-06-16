@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Section } from '../../pages/CandidateStatus/styles';
+import CandidateStatusContext from '../../pages/CandidateStatus/context';
 
 function Dashboard({ idCourse }) {
-  //TODO: antes de montar a estrutura do componente - puxar dados do banco 
+  const { actualSection, setActualSection } = useContext(CandidateStatusContext);
+  //TODO: antes de montar a estrutura do componente - puxar dados do banco com useEffect
   //ver sobre ciclos de vida do react e uso do hook useEffect
   
   //lembrar de inserir um botão de logout - cancelar sessão no localStorage
@@ -369,7 +371,7 @@ function Dashboard({ idCourse }) {
 
       </> : <></>}
 
-      <Button>Sair</Button>
+      <Button onClick={() => {localStorage.clear(); setActualSection(actualSection-1);}}>Sair</Button>
 
     </>
   );
