@@ -20,7 +20,7 @@ function Login() {
 
   return (
     <>
-      <label htmlFor="accessCode">Código de acesso <ast>*</ast></label>
+      <label htmlFor="accessCode">Código de acesso <a>*</a></label>
       <span style={{cursor: "pointer"}} onClick={() => setShowCode(!showCode)}>{showCode ? 'esconder código' : 'mostrar código'}</span>
       <input 
         type={showCode ? 'text' : 'password'} id="accessCode"

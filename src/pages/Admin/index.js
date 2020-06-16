@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AdminContext from './context';
 import UploadButton from '../../components/UploadButton';
 import Login from '../../sections/Admin/Login';
-import DisplayData from '../../sections/Admin/displayData';
+import DisplayData from '../../sections/Admin/DisplayData';
 
 function Admin() {
   const [actualSection, setActualSection] = useState(0);
