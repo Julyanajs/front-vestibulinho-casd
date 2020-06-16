@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AdminContext from './context';
 import { Container } from './styles';
 import UploadButton from '../../components/UploadButton';
+import RoomInput from '../../components/RoomInput';
 import Login from '../../sections/Admin/Login';
 import DisplayData from '../../sections/Admin/DisplayData';
 
@@ -24,6 +25,7 @@ function Admin({ idCourse }) {
     <Login />,
     <>
       <UploadButton />
+      <RoomInput />
       <DisplayData />
     </>
   ];
