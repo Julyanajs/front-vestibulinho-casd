@@ -66,6 +66,44 @@ export const Container = styled.div`
     font-weight: 900;
     color: #00ffff;
   }
+
+  label {
+    font-weight: 900;
+    color: white;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+    font-size: 1em;
+    text-align: justify;
+  }
+
+  label > a {
+    color: #991111;
+  }
+
+  p {
+    color: white;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+    font-size: 0.8em;
+  }
+
+  input {
+    color: ${grayCASD};
+    margin-block-start: 0.5em;
+    margin-block-end: 1.5em;
+    padding: 0.5em;
+    font-size: 1em;
+  }
+
+  select {
+    font-family: Montserrat;
+    background-color: white;
+    color: ${grayCASD};
+    margin-block-start: 0.5em;
+    margin-block-end: 1.5em;
+    padding: 0.5em;
+    font-size: 1em;
+  }
 `;
 
 export const Explain = styled.div`
