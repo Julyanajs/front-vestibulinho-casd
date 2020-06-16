@@ -37,13 +37,14 @@ function CandidateStatus({ idCourse }) {
       // --- SE SUCESSO:
       if(localStorage.getItem('candidate') === _Id) 
         setActualSection(actualSection+1);
+        setLoginData({});
     } else {
       console.log('[ERRO] Erro de validação - RG ou código de acesso');
     }
   }
 
   return (
-    <CandidateStatusContext.Provider value={{ handleLogin, loginData, setLoginData }}>
+    <CandidateStatusContext.Provider value={{ handleLogin, loginData, setLoginData, actualSection, setActualSection }}>
       <Container>
         <h1>{infosCourse[0][idCourse].infoTitle}</h1>
         <h3>Área do candidato</h3>
