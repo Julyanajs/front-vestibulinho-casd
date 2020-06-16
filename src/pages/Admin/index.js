@@ -4,7 +4,17 @@ import { Container } from './styles';
 import UploadButton from '../../components/UploadButton';
 import Login from '../../sections/Admin/Login';
 import DisplayData from '../../sections/Admin/DisplayData';
-import { infosCourse } from '../../utils/constants';
+
+const infosCourse = [
+  {
+    "casdvest": {
+      infoTitle: "Vestibulinho CASDvest 2021"
+    },
+    "casdinho": {
+      infoTitle: "Vestibulinho CASDinho 2021"
+    }
+  }
+];
 
 function Admin({ idCourse }) {
   const [actualSection, setActualSection] = useState(0);
