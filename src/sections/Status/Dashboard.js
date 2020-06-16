@@ -373,8 +373,8 @@ function Dashboard({ idCourse }) {
 
           {buttons.bttnEnroll ?
             <Explain>Os candidatos convocados devem comparecer na sede do curso (Rua Tsunessaburo Makiguti, 139, Floradas de São José, São José dos Campos - SP, 12230-084) no dia e horário a serem divulgados no site e nas redes sociais do curso para realizarem sua matrícula.
-            De acordo com a quantidade de alunos matriculados e a quantidade de vagas do curso, novas chamadas de convocação podem ser realizadas.
-      </Explain>
+              De acordo com a quantidade de alunos matriculados e a quantidade de vagas do curso, novas chamadas de convocação podem ser realizadas.
+            </Explain>
             : <></>}
 
         </> : <></>}
