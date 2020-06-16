@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import AdminContext from '../../pages/Admin/context';
+import { Button } from '../../pages/Admin/styles';
 
 function Login() {
   const { handleLogin, loginData, setLoginData } = useContext(AdminContext);
@@ -21,12 +22,12 @@ function Login() {
   return (
     <>
       <label htmlFor="accessCode">Código de acesso <a>*</a></label>
-      <span style={{cursor: "pointer"}} onClick={() => setShowCode(!showCode)}>{showCode ? 'esconder código' : 'mostrar código'}</span>
+      <span style={{cursor: "pointer", fontSize: "12px", color:"white", fontWeight: "bold" }} onClick={() => setShowCode(!showCode)}>{showCode ? 'ESCONDER CÓDIGO' : 'MOSTRAR CÓDIGO'}</span>
       <input 
         type={showCode ? 'text' : 'password'} id="accessCode"
         onChange={e => handleAccessCode(e.target.value)}
       />
-      <button onClick={() => handleLogin()}>ENTRAR</button>
+      <Button onClick={() => handleLogin()}>ENTRAR</Button>
     </>
   );
 }

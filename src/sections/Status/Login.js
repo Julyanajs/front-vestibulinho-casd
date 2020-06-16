@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import CandidateStatusContext from '../../pages/CandidateStatus/context';
+import { Button, SpanButton } from '../../pages/CandidateStatus/styles';
 
 function Login() {
   //TODO - sobre o "esqueci o código de acesso" (já alinhado com o back)
@@ -66,16 +67,16 @@ function Login() {
         onChange={e => handleRG(e.target.value)}
       />
       <label htmlFor="accessCode">Código de acesso <a>*</a></label>
-      <span style={{cursor: "pointer"}} onClick={() => setShowCode(!showCode)}>{showCode ? 'esconder código' : 'mostrar código'}</span>
+      <span style={{cursor: "pointer", fontSize: "12px", color:"white", fontWeight: "bold" }} onClick={() => setShowCode(!showCode)}>{showCode ? 'ESCONDER CÓDIGO' : 'MOSTRAR CÓDIGO'}</span>
       <p>Enviado para o e-mail cadastrado no ato da inscrição.</p>
       <input 
         type={showCode ? 'text' : 'password'} id="accessCode"
         onChange={e => handleAccessCode(e.target.value)}
       />
-      <span style={{cursor: "pointer"}} onClick={() => console.log('chamar função que faz o back reenviar outro código para o RG definido!')}>
+      <SpanButton onClick={() => console.log('chamar função que faz o back reenviar outro código para o RG definido!')}>
         Esqueci meu código de acesso
-      </span>
-      <button onClick={() => handleLogin()}>ENTRAR</button>
+      </SpanButton>
+      <Button onClick={() => handleLogin()}>ENTRAR</Button>
     </>
   );
 }

@@ -163,6 +163,7 @@ export const Section = styled.div`
 `;
 
 export const Button = styled.button`
+  cursor: ${props => props.checkDisabled ? "default" : "pointer"};
   border-color: white;
   border-radius: 0.5em;
   color: ${grayCASD};
@@ -178,4 +179,13 @@ export const Button = styled.button`
   }
 
   opacity: ${props => props.checkDisabled ? 0.6 : 1};
+`;
+
+export const SpanButton = styled.span`
+  cursor: pointer;
+  margin-top: -15px;
+  margin-bottom: 24px;
+  font-weight: bold;
+  font-size: 14px;
+  color: ${yellowCASD};
 `;

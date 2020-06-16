@@ -8,7 +8,6 @@ import PrivateSpacesInputs from '../../sections/Form/privateSpacesInputs';
 import RegistrationFeeInputs from '../../sections/Form/registrationFeeInputs';
 import Confirmation from '../../sections/Form/confirmation';
 import FinalPage from '../../sections/Form/finalPage';
-
 import api from '../../services/api';
 
 const infosCourse = [
