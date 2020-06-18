@@ -107,6 +107,8 @@ export const Container = styled.div`
   }
 `;
 
+
+
 export const MainHeaderTableCell = styled(TableCell)`
   @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
@@ -142,7 +144,7 @@ export const Button = styled.button`
   margin-block-end: 0em;
   padding: 0em;
   font-size: 1em;
-  width: 5em;
+  width: ${props => props.fullWidth ? "100%" : "5em"};
   height: 2em;
 
   &:hover {

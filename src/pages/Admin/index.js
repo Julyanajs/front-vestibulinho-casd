@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AdminContext from './context';
-import { Container } from './styles';
+import { Container, Button } from './styles';
 import UploadButton from '../../components/UploadButton';
 import RoomInput from '../../components/RoomInput';
 import Login from '../../sections/Admin/Login';
@@ -25,11 +25,11 @@ function Admin({ idCourse }) {
   const sections = [
     <Login />,
     <>
-      <button onClick={() => handleExcelDownload('/candidate/exportCandidate/all')}>Baixar excel</button>
-      <button onClick={() => {localStorage.clear(); setActualSection(actualSection-1);}}>Sair</button>
       <UploadButton />
       <RoomInput />
       <DisplayData />
+      <Button fullWidth={true} onClick={() => handleExcelDownload('/candidate/exportCandidate/all')}>Baixar excel</Button>
+      <Button onClick={() => {localStorage.clear(); setActualSection(actualSection-1);}}>Sair</Button>
     </>
   ];
 
