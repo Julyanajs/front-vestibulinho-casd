@@ -31,6 +31,8 @@ function CandidateStatus({ idCourse }) {
   useEffect(() => {
     if(sessionStorage.getItem('candidate') !== null)
       setActualSection(1);
+      //salvar dados do GET em candidate - puxar pelo _id salvo no localStorage
+    }
   }, []);
 
   async function handleLogin() {
@@ -50,10 +52,17 @@ function CandidateStatus({ idCourse }) {
       // --- SE SUCESSO:
       if(sessionStorage.getItem('candidate') === _Id) 
         setActualSection(actualSection+1);
-        setLoginData({});
-    } else {
-      console.log('[ERRO] Erro de validação - RG ou código de acesso');
-    }
+        setCandidate(respGET.data.candidate);
+        console.log('AAA candidate', respGET.data.candidate);
+        localStorage.setItem('candidate', respGET.data.candidate._id);
+        console.log('teste', localStorage.getItem('candidate'));
+      }
+
+      setLoginData({});
+    // } 
+    // else {
+    //   console.log('[ERRO] Erro de validação - RG ou código de acesso');
+    // }
   }
 
   return (
