@@ -6,16 +6,20 @@ import api from '../../services/api';
 function Dashboard({ idCourse }) {
   const { actualSection, setActualSection } = useContext(CandidateStatusContext);
 
-  useEffect(() => {
-    const candidateId = localStorage.getItem('candidate');
-    console.log('candidateId', localStorage.getItem('candidate'));
-    async function getCandidateById() {
-      await api.get(`/candidate/checkCandidate?_id=${candidateId}`)
-        .then(res => console.log('res', res))
-        .catch(error => console.log('error', error));
-    }
-    getCandidateById();
-  }, [actualSection]);
+  var candidateData = JSON.parse(sessionStorage.getItem('candData'));
+
+
+//   useEffect(() => {
+//     const candidateId = localStorage.getItem('candidate');
+//     console.log('candidateId', localStorage.getItem('candidate'));
+//     async function getCandidateById() {
+//       await api.get(`/candidate/checkCandidate?_id=${candidateId}`)
+//         .then(res => console.log('res', res))
+//         .catch(error => console.log('error', error));
+//     }
+//     getCandidateById();
+//   }, [actualSection]);
+
 
   //TODO: antes de montar a estrutura do componente - puxar dados do banco com useEffect
   //ver sobre ciclos de vida do react e uso do hook useEffect
@@ -34,19 +38,19 @@ function Dashboard({ idCourse }) {
   // Informações de status do candidato
   // Ajustar para buscar no DB
   const [status, setStatus] = useState({
-    name: "NOME DE TESTE",
-    registrationStatus: true,
-    exemptionStatus: "exempted",
-    roomId: "1G1",
-    testPresence: true,
-    grade: 40,
-    privateSpace: true,
-    esStatus: true,
-    esPresence: true,
-    esDate: "11 de novembro de 2020",
-    esTime: "19:15",
-    esResult: true,
-    enrollStatus: false
+    name: candidateData.name,
+    registrationStatus: candidateData.candidateStatus.registrationStatus,
+    exemptionStatus: candidateData.candidateStatus.exemptionStatus === true ? "exempted" : "notExempted",
+    roomId: candidateData.candidateStatus.roomId,
+    testPresence: candidateData.candidateStatus.testPresence,
+    grade: candidateData.candidateStatus.grade,
+    privateSpace: candidateData.candidateStatus.privateSpace,
+    esStatus: candidateData.candidateStatus.esStatus,
+    esPresence: candidateData.candidateStatus.esPresence,
+    esDate: candidateData.candidateStatus.esData,
+    esTime: candidateData.candidateStatus.esTime,
+    esResult: candidateData.candidateStatus.esResult,
+    enrollStatus: candidateData.candidateStatus.enrollStatus
   });
 
   const [buttons, setButtons] = useState({ bttnRegistrationStatus: false, bttnExemption: false, bttnRoom: false, bttnTestPresence: false, bttnGrade: false, bttnPrivateSpace: false, bttnEsStatus: false, bttnEsPresence: false, bttnEsResult: false, bttnEnroll: false });
@@ -204,7 +208,7 @@ function Dashboard({ idCourse }) {
 
           <Explain>Ao clicar no botão abaixo, você pode visualizar e mudar os dados que cadastrou no momento da sua inscrição.</Explain>
 
-          <Button>Editar</Button>
+          <Button onClick={() => {localStorage.clear(); setActualSection(actualSection+1);}}>Editar</Button>
 
         </> :
 

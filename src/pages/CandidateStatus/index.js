@@ -3,6 +3,7 @@ import CandidateStatusContext from './context';
 import { Container } from './styles';
 import Login from '../../sections/Status/Login';
 import Dashboard from '../../sections/Status/Dashboard';
+import UpdatePage from '../../sections/Status/UpdatePage';
 import api from '../../services/api';
 
 const infosCourse = [
@@ -19,28 +20,37 @@ const infosCourse = [
 function CandidateStatus({ idCourse }) {
   const [actualSection, setActualSection] = useState(0);
   const [loginData, setLoginData] = useState({});
-  const [candidate, setCandidate] = useState({});
+  const [candidateData, setCandidateData] = useState({});
 
   const sections = [
     <Login />,
-    <Dashboard idCourse={idCourse} />
+    <Dashboard idCourse={idCourse}/>,
+    <UpdatePage idCourse={idCourse}/>
   ];
   
   useEffect(() => {
-    if(localStorage.getItem('candidate') !== null) {
+    if(sessionStorage.getItem('candidate') !== null)
       setActualSection(1);
       //salvar dados do GET em candidate - puxar pelo _id salvo no localStorage
     }
   }, []);
 
   async function handleLogin() {
-    // if(loginData.rg && loginData.rg !== "" && loginData.accessCode && loginData.accessCode !== "") {
+    if(loginData.rg && loginData.rg !== "" && loginData.accessCode && loginData.accessCode !== "") {
+      console.log('[GET] Validação do login no banco.');
+      // --- SE SUCESSO: _Id do candidato é salvo no localStorage
+      // --- TEMPORÁRIO: const _Id
       const respGET = await api.get(`/candidate/checkCandidate?rg=${loginData.rg}`);
-      
-      if(!respGET.data || respGET.data === "") {
-        alert('Não existe candidato com esse RG.');
-      } else {
-        console.log('CANDIDATO', respGET.data);
+      setCandidateData(candidateData => {
+          return {...candidateData, ...respGET.data.candidate}
+        });
+      sessionStorage.setItem('candData', JSON.stringify(respGET.data.candidate));
+      console.log(JSON.stringify(respGET.data.candidate));
+      const _Id = "123456";
+      sessionStorage.setItem('candidate', _Id);
+
+      // --- SE SUCESSO:
+      if(sessionStorage.getItem('candidate') === _Id) 
         setActualSection(actualSection+1);
         setCandidate(respGET.data.candidate);
         console.log('AAA candidate', respGET.data.candidate);
@@ -56,7 +66,7 @@ function CandidateStatus({ idCourse }) {
   }
 
   return (
-    <CandidateStatusContext.Provider value={{ handleLogin, loginData, setLoginData, actualSection, setActualSection }}>
+    <CandidateStatusContext.Provider value={{ handleLogin, loginData, setLoginData, actualSection, setActualSection}}>
       <Container>
         <h1>{infosCourse[0][idCourse].infoTitle}</h1>
         <h3>Área do candidato</h3>
