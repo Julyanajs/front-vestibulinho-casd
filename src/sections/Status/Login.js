@@ -15,7 +15,7 @@ function Login() {
 
   useEffect(() => {
     if(localStorage.getItem('candidate') !== null)
-      setActualSection(1);
+      setActualSection(2);
   }, []);
 
   function handleStrings(string) {
