@@ -1,9 +1,22 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Section, Text, Explain } from '../../pages/CandidateStatus/styles';
 import CandidateStatusContext from '../../pages/CandidateStatus/context';
+import api from '../../services/api';
 
 function Dashboard({ idCourse }) {
   const { actualSection, setActualSection } = useContext(CandidateStatusContext);
+
+  useEffect(() => {
+    const candidateId = localStorage.getItem('candidate');
+    console.log('candidateId', localStorage.getItem('candidate'));
+    async function getCandidateById() {
+      await api.get(`/candidate/checkCandidate?_id=${candidateId}`)
+        .then(res => console.log('res', res))
+        .catch(error => console.log('error', error));
+    }
+    getCandidateById();
+  }, [actualSection]);
+
   //TODO: antes de montar a estrutura do componente - puxar dados do banco com useEffect
   //ver sobre ciclos de vida do react e uso do hook useEffect
 
@@ -82,7 +95,6 @@ function Dashboard({ idCourse }) {
       case "bttnEnroll": setButtons({ ...buttons, bttnEnroll: !(buttons.bttnEnroll) }); break;
     }
   }
-
   return (
     <>
       {/* Campos temporários para feedback */}
