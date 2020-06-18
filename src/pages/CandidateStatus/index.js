@@ -29,7 +29,7 @@ function CandidateStatus({ idCourse }) {
   ];
   
   useEffect(() => {
-    if(localStorage.getItem('candidate') !== null)
+    if(sessionStorage.getItem('candidate') !== null)
       setActualSection(1);
   }, []);
 
