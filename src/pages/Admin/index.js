@@ -26,6 +26,7 @@ function Admin({ idCourse }) {
     <Login />,
     <>
       <button onClick={() => handleExcelDownload('/candidate/exportCandidate/all')}>Baixar excel</button>
+      <button onClick={() => {localStorage.clear(); setActualSection(actualSection-1);}}>Sair</button>
       <UploadButton />
       <RoomInput />
       <DisplayData />
@@ -33,6 +34,7 @@ function Admin({ idCourse }) {
   ];
 
   useEffect(() => {
+
     if(localStorage.getItem('admin') !== null)
       setActualSection(1);
   }, []);

@@ -1,5 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import AdminContext from '../../pages/Admin/context';
+import api from '../../services/api';
 import { MainHeaderTableCell, SubHeaderTableCell, BodyTableCell, Title } from '../../pages/Admin/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -269,14 +270,24 @@ function Row(props) {
 }
 
 function DisplayData() {
-    const { actualSection, setActualSection } = useContext(AdminContext);
     const classes = useStyles();
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
 
-    const handleChangePage = (event, newPage) => {
+    useEffect(
+			() => {
+			async function candidatesPerPage() {
+				await api.get(`/candidate/getPage?limit=${rowsPerPage}&page=${page+1}`)
+				.then(res => console.log('RESULTADO', res.data.candidate))
+				.catch(error => console.log('ERRO', error));
+			}
+			candidatesPerPage();
+			}
+			, [page]);
+    
+      const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
 
@@ -341,7 +352,6 @@ function DisplayData() {
                 onChangeRowsPerPage={handleChangeRowsPerPage}
             />
         </Paper>
-        <button onClick={() => {localStorage.clear(); setActualSection(actualSection-1);}}>Sair</button>
         </>
     );
 }
