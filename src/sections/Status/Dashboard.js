@@ -5,26 +5,35 @@ import api from '../../services/api';
 
 function Dashboard({ idCourse }) {
   const { actualSection, setActualSection } = useContext(CandidateStatusContext);
+  const [status, setStatus] = useState({});
 
-  var candidateData = JSON.parse(sessionStorage.getItem('candData'));
-
-
-//   useEffect(() => {
-//     const candidateId = localStorage.getItem('candidate');
-//     console.log('candidateId', localStorage.getItem('candidate'));
-//     async function getCandidateById() {
-//       await api.get(`/candidate/checkCandidate?_id=${candidateId}`)
-//         .then(res => console.log('res', res))
-//         .catch(error => console.log('error', error));
-//     }
-//     getCandidateById();
-//   }, [actualSection]);
-
-
-  //TODO: antes de montar a estrutura do componente - puxar dados do banco com useEffect
-  //ver sobre ciclos de vida do react e uso do hook useEffect
-
-  //lembrar de inserir um botão de logout - cancelar sessão no localStorage
+  useEffect(() => {
+    const candidateId = sessionStorage.getItem('candidate');
+    async function getCandidateById() {
+      await api.get(`/candidate/checkCandidateId?_id=${candidateId}`)
+        .then(res => {
+          const { candidate } = res.data;
+          console.log('res DASHBOARD', candidate);
+          setStatus({
+            name: candidate.name,
+            registrationStatus: candidate.candidateStatus?.registrationStatus,
+            exemptionStatus: candidate.candidateStatus?.exemptionStatus === true ? "exempted" : "notExempted",
+            roomId: candidate.candidateStatus?.roomId,
+            testPresence: candidate.candidateStatus?.testPresence,
+            grade: candidate.candidateStatus?.grade,
+            privateSpace: candidate.candidateStatus?.privateSpace,
+            esStatus: candidate.candidateStatus?.esStatus,
+            esPresence: candidate.candidateStatus?.esPresence,
+            esDate: candidate.candidateStatus?.esData,
+            esTime: candidate.candidateStatus?.esTime,
+            esResult: candidate.candidateStatus?.esResult,
+            enrollStatus: candidate.candidateStatus?.enrollStatus
+          });
+        })
+        .catch(error => console.log("[ERRO]", error));
+    }
+    getCandidateById();
+  }, []);
 
   // Variavel para indicar momento atual do Processo Seletivo
   // 0 -> Prova ainda vai acontecer
@@ -34,25 +43,6 @@ function Dashboard({ idCourse }) {
   // 4 -> Resultado da Entrevista Socioeconômica divulgado, mas não da matrícula
   // 5 -> Chamada para matrícula feita
   const [processSituation, setProcessSituation] = useState("0");
-
-  // Informações de status do candidato
-  // Ajustar para buscar no DB
-  const [status, setStatus] = useState({
-    // name: candidateData.name,
-    // registrationStatus: candidateData.candidateStatus.registrationStatus,
-    // exemptionStatus: candidateData.candidateStatus.exemptionStatus === true ? "exempted" : "notExempted",
-    // roomId: candidateData.candidateStatus.roomId,
-    // testPresence: candidateData.candidateStatus.testPresence,
-    // grade: candidateData.candidateStatus.grade,
-    // privateSpace: candidateData.candidateStatus.privateSpace,
-    // esStatus: candidateData.candidateStatus.esStatus,
-    // esPresence: candidateData.candidateStatus.esPresence,
-    // esDate: candidateData.candidateStatus.esData,
-    // esTime: candidateData.candidateStatus.esTime,
-    // esResult: candidateData.candidateStatus.esResult,
-    // enrollStatus: candidateData.candidateStatus.enrollStatus
-  });
-
   const [buttons, setButtons] = useState({ bttnRegistrationStatus: false, bttnExemption: false, bttnRoom: false, bttnTestPresence: false, bttnGrade: false, bttnPrivateSpace: false, bttnEsStatus: false, bttnEsPresence: false, bttnEsResult: false, bttnEnroll: false });
 
   const infosCourse = [
@@ -395,8 +385,7 @@ function Dashboard({ idCourse }) {
 
         </> : <></>}
 
-      <Button onClick={() => {localStorage.clear(); setActualSection(actualSection-1);}}>Sair</Button>
-
+      <Button onClick={() => {sessionStorage.clear(); setActualSection(actualSection-1);}}>Sair</Button>
     </>
   );
 }

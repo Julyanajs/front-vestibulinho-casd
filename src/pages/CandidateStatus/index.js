@@ -20,7 +20,6 @@ const infosCourse = [
 function CandidateStatus({ idCourse }) {
   const [actualSection, setActualSection] = useState(0);
   const [loginData, setLoginData] = useState({});
-  const [candidateData, setCandidateData] = useState({});
 
   const sections = [
     <Login />,
@@ -31,37 +30,19 @@ function CandidateStatus({ idCourse }) {
   useEffect(() => {
     if(sessionStorage.getItem('candidate') !== null)
       setActualSection(1);
-      //salvar dados do GET em candidate - puxar pelo _id salvo no localStorage
-    
   }, []);
 
+
   async function handleLogin() {
-    if(loginData.rg && loginData.rg !== "" && loginData.accessCode && loginData.accessCode !== "") {
-      console.log('[GET] Validação do login no banco.');
-      // --- SE SUCESSO: _Id do candidato é salvo no localStorage
-      // --- TEMPORÁRIO: const _Id
-      const respGET = await api.get(`/candidate/checkCandidate?rg=${loginData.rg}`);
-      setCandidateData(candidateData => {
-          return {...candidateData, ...respGET.data.candidate}
-        });
-      sessionStorage.setItem('candData', JSON.stringify(respGET.data.candidate));
-      console.log(JSON.stringify(respGET.data.candidate));
-      const _Id = "123456";
-      sessionStorage.setItem('candidate', _Id);
-
-      // --- SE SUCESSO:
-      if(sessionStorage.getItem('candidate') === _Id) 
-        setActualSection(actualSection+1);
-        console.log('AAA candidate', respGET.data.candidate);
-        localStorage.setItem('candidate', respGET.data.candidate._id);
-        console.log('teste', localStorage.getItem('candidate'));
-      }
-
-      setLoginData({});
-    // } 
-    // else {
-    //   console.log('[ERRO] Erro de validação - RG ou código de acesso');
-    // }
+    if(loginData.rg && loginData.rg !== "") {
+      await api.get(`/candidate/checkCandidate?rg=${loginData.rg}`)
+        .then(res => {
+          const { candidate } = res.data; 
+          sessionStorage.setItem('candidate', candidate._id);
+          setActualSection(actualSection+1);
+        })
+        .catch(error => console.log("[ERRO]", error));
+    } else alert("[ERRO DE VALIDAÇÃO] RG incorreto.");
   }
 
   return (
