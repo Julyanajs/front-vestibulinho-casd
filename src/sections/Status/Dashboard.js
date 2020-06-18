@@ -5,6 +5,7 @@ import api from '../../services/api';
 
 function Dashboard({ idCourse }) {
   const { actualSection, setActualSection } = useContext(CandidateStatusContext);
+  const [status, setStatus] = useState({});
 
   useEffect(() => {
     const candidateId = sessionStorage.getItem('candidate');
@@ -13,12 +14,26 @@ function Dashboard({ idCourse }) {
         .then(res => {
           const { candidate } = res.data;
           console.log('res DASHBOARD', candidate);
+          setStatus({
+            name: candidate.name,
+            registrationStatus: candidate.candidateStatus?.registrationStatus,
+            exemptionStatus: candidate.candidateStatus?.exemptionStatus === true ? "exempted" : "notExempted",
+            roomId: candidate.candidateStatus?.roomId,
+            testPresence: candidate.candidateStatus?.testPresence,
+            grade: candidate.candidateStatus?.grade,
+            privateSpace: candidate.candidateStatus?.privateSpace,
+            esStatus: candidate.candidateStatus?.esStatus,
+            esPresence: candidate.candidateStatus?.esPresence,
+            esDate: candidate.candidateStatus?.esData,
+            esTime: candidate.candidateStatus?.esTime,
+            esResult: candidate.candidateStatus?.esResult,
+            enrollStatus: candidate.candidateStatus?.enrollStatus
+          });
         })
         .catch(error => console.log("[ERRO]", error));
     }
     getCandidateById();
   }, []);
-
 
   // Variavel para indicar momento atual do Processo Seletivo
   // 0 -> Prova ainda vai acontecer
@@ -28,25 +43,6 @@ function Dashboard({ idCourse }) {
   // 4 -> Resultado da Entrevista Socioeconômica divulgado, mas não da matrícula
   // 5 -> Chamada para matrícula feita
   const [processSituation, setProcessSituation] = useState("0");
-
-  // Informações de status do candidato
-  // Ajustar para buscar no DB
-  const [status, setStatus] = useState({
-    // name: candidateData.name,
-    // registrationStatus: candidateData.candidateStatus.registrationStatus,
-    // exemptionStatus: candidateData.candidateStatus.exemptionStatus === true ? "exempted" : "notExempted",
-    // roomId: candidateData.candidateStatus.roomId,
-    // testPresence: candidateData.candidateStatus.testPresence,
-    // grade: candidateData.candidateStatus.grade,
-    // privateSpace: candidateData.candidateStatus.privateSpace,
-    // esStatus: candidateData.candidateStatus.esStatus,
-    // esPresence: candidateData.candidateStatus.esPresence,
-    // esDate: candidateData.candidateStatus.esData,
-    // esTime: candidateData.candidateStatus.esTime,
-    // esResult: candidateData.candidateStatus.esResult,
-    // enrollStatus: candidateData.candidateStatus.enrollStatus
-  });
-
   const [buttons, setButtons] = useState({ bttnRegistrationStatus: false, bttnExemption: false, bttnRoom: false, bttnTestPresence: false, bttnGrade: false, bttnPrivateSpace: false, bttnEsStatus: false, bttnEsPresence: false, bttnEsResult: false, bttnEnroll: false });
 
   const infosCourse = [
