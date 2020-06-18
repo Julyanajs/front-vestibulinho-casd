@@ -32,7 +32,7 @@ function CandidateStatus({ idCourse }) {
     if(sessionStorage.getItem('candidate') !== null)
       setActualSection(1);
       //salvar dados do GET em candidate - puxar pelo _id salvo no localStorage
-    }
+    
   }, []);
 
   async function handleLogin() {
@@ -52,7 +52,6 @@ function CandidateStatus({ idCourse }) {
       // --- SE SUCESSO:
       if(sessionStorage.getItem('candidate') === _Id) 
         setActualSection(actualSection+1);
-        setCandidate(respGET.data.candidate);
         console.log('AAA candidate', respGET.data.candidate);
         localStorage.setItem('candidate', respGET.data.candidate._id);
         console.log('teste', localStorage.getItem('candidate'));
