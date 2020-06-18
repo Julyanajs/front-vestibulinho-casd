@@ -17,7 +17,7 @@ function Dashboard({ idCourse }) {
           setStatus({
             name: candidate.name,
             registrationStatus: candidate.candidateStatus?.registrationStatus,
-            exemptionStatus: candidate.candidateStatus?.exemptionStatus === true ? "exempted" : "notExempted",
+            exemptionStatus: candidate.candidateStatus?.exemptionStatus,
             roomId: candidate.candidateStatus?.roomId,
             testPresence: candidate.candidateStatus?.testPresence,
             grade: candidate.candidateStatus?.grade,
@@ -91,47 +91,6 @@ function Dashboard({ idCourse }) {
   }
   return (
     <>
-      {/* Campos temporários para feedback */}
-
-      <label>Selecionar visualização</label>
-      <select onChange={e => { setProcessSituation(e.target.value) }}>
-        <option value={"0"}>Antes da prova</option>
-        <option value={"1"}>Depois da prova, antes da divulgação do resultado</option>
-        <option value={"2"}>Depois da divulgação do resultado, antes da ES</option>
-        <option value={"3"}>Depois da ES</option>
-        <option value={"4"}>Depois do resultado da ES</option>
-        <option value={"5"}>Depois da convocação para matrícula</option>
-      </select>
-
-      <label>Selecionar presença na prova</label>
-      <select onChange={e => {
-        if (e.target.value === "true") setStatus({ ...status, testPresence: true });
-        else if (e.target.value === "false") setStatus({ ...status, testPresence: false })
-      }}>
-        <option value={"true"}>Presente</option>
-        <option value={"false"}>Ausente</option>
-      </select>
-
-      <label>Selecionar resultado da prova</label>
-      <select onChange={e => {
-        if (e.target.value === "true") setStatus({ ...status, esStatus: true });
-        else if (e.target.value === "false") setStatus({ ...status, esStatus: false })
-      }}>
-        <option value={"true"}>Passou</option>
-        <option value={"false"}>Não passou</option>
-      </select>
-
-      <label>Selecionar presença na ES</label>
-      <select onChange={e => {
-        if (e.target.value === "true") setStatus({ ...status, esPresence: true });
-        else if (e.target.value === "false") setStatus({ ...status, esPresence: false })
-      }}>
-        <option value={"true"}>Presente</option>
-        <option value={"false"}>Ausente</option>
-      </select>
-
-      {/* Fim dos campos temporários */}
-
       <Section>
         <h4>Nome do candidato:</h4>
         <Text>{status.name}</Text>
@@ -149,7 +108,7 @@ function Dashboard({ idCourse }) {
 
           {buttons.bttnRegistrationStatus ?
             <Explain>O candidato com a inscrição <span>confirmada</span> já está cadastrado no Processo Seletivo.
-      Se ocorreu algum problema com a sua inscrição, entre em contato com a administração do curso.</Explain>
+            Se ocorreu algum problema com a sua inscrição, entre em contato com a administração do curso.</Explain>
             : <></>}
 
           <Section>
@@ -179,17 +138,17 @@ function Dashboard({ idCourse }) {
           </Section>
 
           <Explain>A prova teórica do {infos.course} será realizada no <span>dia {infos.date}</span>, às <span>{infos.time}</span>, {infos.place}.
-      Mais informações podem ser encontradas no nosso site e nas redes sociais.</Explain>
+          Mais informações podem ser encontradas no nosso site e nas redes sociais.</Explain>
 
           <Section>
             <h4>Sala de prova:</h4>
-            {status.roomId === "undefined" ? <Text>Não divulgado.</Text> : <Text>{status.roomId}</Text>}
+            {status.roomId === false ? <Text>{status.roomId}</Text> : <Text>Não divulgado.</Text>}
             <button className="bttnRoom" onClick={handleButton}>?</button>
           </Section>
 
           {buttons.bttnRoom ?
             <Explain>A lista de salas de prova será divulgada até 1 (um) dia antes da data do Vestibulinho no site e nas redes sociais.
-      A localização das salas estará indicada no local da prova no dia de sua realização.</Explain>
+            A localização das salas estará indicada no local da prova no dia de sua realização.</Explain>
             : <></>}
 
           <Section>
@@ -287,12 +246,12 @@ function Dashboard({ idCourse }) {
 
           <Section>
             <h4>Data:</h4>
-            {status.esDate === "undefined" ? <Text>Ainda não divulgado.</Text> : <Text>{status.esDate}</Text>}
+            {status.esDate === false ? <Text>Ainda não divulgado.</Text> : <Text>{status.esDate}</Text>}
           </Section>
 
           <Section>
             <h4>Horário:</h4>
-            {status.esTime === "undefined" ? <Text>Ainda não divulgado.</Text> : <Text>{status.esTime}</Text>}
+            {status.esTime === false ? <Text>Ainda não divulgado.</Text> : <Text>{status.esTime}</Text>}
           </Section>
 
         </> : <></>}

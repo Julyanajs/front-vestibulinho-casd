@@ -33,8 +33,8 @@ function RegistrationFeeInputs({ idCourse }) {
   function handleSelect(e) {
     var fee = e.target.value;
 
-    if (fee === "sim") setRegistrationFee({...registrationFee, exemptionRequest: fee});
-    else setRegistrationFee({...registrationFee, exemptionRequest: fee, exemptionJustification: ""});
+    if (fee === "analysis") setRegistrationFee({...registrationFee, exemptionStatus: fee});
+    else if (fee === "notRequested") setRegistrationFee({...registrationFee, exemptionStatus: fee, exemptionJustification: ""});
   }
 
   return (
@@ -44,25 +44,25 @@ function RegistrationFeeInputs({ idCourse }) {
    
       <label htmlFor="registrationFee">Solicitação de isenção <a>*</a></label>
       <select id="registrationFee" onChange={handleSelect}>
-        <option value={formData.exemptionRequest} selected disabled hidden>{formData.exemptionRequest === "sim" ?
+        <option value={formData.exemptionStatus} selected disabled hidden>{formData.exemptionStatus === "analysis" ?
         "QUERO receber isenção da taxa de inscrição, ou seja, NÃO QUERO fazer o pagamento da taxa"
-        : (formData.exemptionRequest === "nao" ? 
+        : (formData.exemptionStatus === "nao" ? 
         "NÃO QUERO receber isenção da taxa de inscrição, ou seja, QUERO fazer o pagamento da taxa" : "")}</option>
         <option value=""></option>
-        <option value="sim">QUERO receber isenção da taxa de inscrição, ou seja, NÃO QUERO fazer o pagamento da taxa</option>
-        <option value="nao">NÃO QUERO receber isenção da taxa de inscrição, ou seja, QUERO fazer o pagamento da taxa</option>
+        <option value="analysis">QUERO receber isenção da taxa de inscrição, ou seja, NÃO QUERO fazer o pagamento da taxa</option>
+        <option value="notRequested">NÃO QUERO receber isenção da taxa de inscrição, ou seja, QUERO fazer o pagamento da taxa</option>
       </select>
-      {(formData.tryNext === true && (!formData.exemptionRequest || formData.exemptionRequest === "")) ? 
+      {(formData.tryNext === true && (!formData.exemptionStatus || formData.exemptionStatus === "")) ? 
       <ErrorMessage>Esse campo é obrigatório.</ErrorMessage> : null}
       
-      {formData.exemptionRequest === "sim" ?
-      <><label htmlFor="exemptionJustification" id="labelexemptionJustification">Justificativa da solicitação de isenção <a>*</a></label>
-      <p id="textexemptionJustification">Descreva brevemente o motivo da sua necessidade de isenção, ou seja, de não pagar a taxa de inscrição. (máximo 300 caracteres)</p>
+      {formData.exemptionStatus === "analysis" ?
+      <><label htmlFor="exemptionJustification" id="labelExemptionJustification">Justificativa da solicitação de isenção <a>*</a></label>
+      <p id="textExemptionJustification">Descreva brevemente o motivo da sua necessidade de isenção, ou seja, de não pagar a taxa de inscrição. (máximo 300 caracteres)</p>
       <input
           type="text" id="exemptionJustification" maxLength="300" placeholder={formData.exemptionJustification}
           onChange={e => {const newData = {...registrationFee, exemptionJustification: e.target.value}; setRegistrationFee(newData);}}
       /></> : null}
-      {(formData.tryNext === true && (formData.exemptionRequest === "sim" && (!formData.exemptionJustification || formData.exemptionJustification === ""))) ? 
+      {(formData.tryNext === true && (formData.exemptionStatus === "analysis" && (!formData.exemptionJustification || formData.exemptionJustification === ""))) ? 
       <ErrorMessage>Esse campo é obrigatório.</ErrorMessage> : null}
 
       {(formData.tryNext === true && formData.disabledButton === true) ? 

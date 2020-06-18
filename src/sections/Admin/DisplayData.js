@@ -280,16 +280,20 @@ function DisplayData() {
     const [orderBy, setOrderBy] = useState('name');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    //const [rows, setRows] = useState([]);
 
     useEffect(() => {
 				async function candidatesPerPage() {
                     //await api.get(`/candidate/getPage?limit=${rowsPerPage}&page=${page+1}`)
                     await api.get(`/candidate/getAll`)
-                    .then(res => console.log('RESULTADO', res.data.candidate))
+                    .then(res => {console.log('RESULTADO', res.data.candidate);})
+                                  //setRows(res.data.candidate);})
 					.catch(error => console.log('ERRO', error));
 				}
-				candidatesPerPage();
-		}, [page]);
+                candidatesPerPage();
+        }, [page]);
+        
+    console.log('rows: ', rows);
     
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
