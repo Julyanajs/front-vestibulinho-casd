@@ -192,7 +192,7 @@ function Dashboard({ idCourse }) {
 
           <Explain>Ao clicar no botão abaixo, você pode visualizar e mudar os dados que cadastrou no momento da sua inscrição.</Explain>
 
-          <Button>Editar</Button>
+          <Button onClick={() => {localStorage.clear(); setActualSection(actualSection+1);}}>Editar</Button>
 
         </> :
 

@@ -30,7 +30,7 @@ function CandidateStatus({ idCourse }) {
   
   useEffect(() => {
     if(localStorage.getItem('candidate') !== null)
-      setActualSection(2);
+      setActualSection(1);
   }, []);
 
   async function handleLogin() {
@@ -42,14 +42,14 @@ function CandidateStatus({ idCourse }) {
       setCandidateData(candidateData => {
           return {...candidateData, ...respGET.data.candidate}
         });
-      localStorage.setItem('candData', JSON.stringify(respGET.data.candidate));
-      console.log(JSON.stringify(candidateData));
+      sessionStorage.setItem('candData', JSON.stringify(respGET.data.candidate));
+      console.log(JSON.stringify(respGET.data.candidate));
       const _Id = "123456";
-      localStorage.setItem('candidate', _Id);
+      sessionStorage.setItem('candidate', _Id);
 
       // --- SE SUCESSO:
-      if(localStorage.getItem('candidate') === _Id) 
-        setActualSection(actualSection+2);
+      if(sessionStorage.getItem('candidate') === _Id) 
+        setActualSection(actualSection+1);
         setLoginData({});
     } else {
       console.log('[ERRO] Erro de validação - RG ou código de acesso');
@@ -57,7 +57,7 @@ function CandidateStatus({ idCourse }) {
   }
 
   return (
-    <CandidateStatusContext.Provider value={{ handleLogin, loginData, setLoginData, actualSection, setActualSection, candidateData, setCandidateData }}>
+    <CandidateStatusContext.Provider value={{ handleLogin, loginData, setLoginData, actualSection, setActualSection}}>
       <Container>
         <h1>{infosCourse[0][idCourse].infoTitle}</h1>
         <h3>Área do candidato</h3>

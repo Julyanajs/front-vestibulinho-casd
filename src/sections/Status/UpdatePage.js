@@ -6,7 +6,7 @@ import api from '../../services/api';
 function UpdatePage({ idCourse }) {
     const { actualSection, setActualSection } = useContext(CandidateStatusContext);
     //const { candidateData, setCandidateData } = useContext(CandidateStatusContext);
-    var candidateData = JSON.parse(localStorage.getItem('candData'));
+    var candidateData = JSON.parse(sessionStorage.getItem('candData'));
     const [ db2TextMap, setDb2TextMap ] = useState({ name: "Nome Completo",
         rg: "RG",
         cpf: "CPF",
@@ -71,18 +71,19 @@ function UpdatePage({ idCourse }) {
         const updateCandidate = await api.put('/candidate/updateCandidate',
             JSON.stringify(candidateData), { headers: { 'Content-Type': 'application/json'}}  
         );
-        localStorage.setItem('candData', JSON.stringify(candidateData));
+        sessionStorage.setItem('candData', JSON.stringify(candidateData));
 
         console.log("Candidato atualizado", updateCandidate);
+        setActualSection(actualSection-1);
     }
     return (
-        <container>
+        <>
         <h3> Atualização Cadastral </h3>
         <form onSubmit={handleSubmit}>
         {final}
         <Button>Atualizar</Button>
         </form>
-        </container>
+        </>
     );
 
 }
