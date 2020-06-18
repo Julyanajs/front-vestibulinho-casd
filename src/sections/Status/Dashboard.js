@@ -6,25 +6,19 @@ import api from '../../services/api';
 function Dashboard({ idCourse }) {
   const { actualSection, setActualSection } = useContext(CandidateStatusContext);
 
-  var candidateData = JSON.parse(sessionStorage.getItem('candData'));
+  useEffect(() => {
+    const candidateId = sessionStorage.getItem('candidate');
+    async function getCandidateById() {
+      await api.get(`/candidate/checkCandidateId?_id=${candidateId}`)
+        .then(res => {
+          const { candidate } = res.data;
+          console.log('res DASHBOARD', candidate);
+        })
+        .catch(error => console.log("[ERRO]", error));
+    }
+    getCandidateById();
+  }, []);
 
-
-//   useEffect(() => {
-//     const candidateId = localStorage.getItem('candidate');
-//     console.log('candidateId', localStorage.getItem('candidate'));
-//     async function getCandidateById() {
-//       await api.get(`/candidate/checkCandidate?_id=${candidateId}`)
-//         .then(res => console.log('res', res))
-//         .catch(error => console.log('error', error));
-//     }
-//     getCandidateById();
-//   }, [actualSection]);
-
-
-  //TODO: antes de montar a estrutura do componente - puxar dados do banco com useEffect
-  //ver sobre ciclos de vida do react e uso do hook useEffect
-
-  //lembrar de inserir um botão de logout - cancelar sessão no localStorage
 
   // Variavel para indicar momento atual do Processo Seletivo
   // 0 -> Prova ainda vai acontecer
@@ -395,8 +389,7 @@ function Dashboard({ idCourse }) {
 
         </> : <></>}
 
-      <Button onClick={() => {localStorage.clear(); setActualSection(actualSection-1);}}>Sair</Button>
-
+      <Button onClick={() => {sessionStorage.clear(); setActualSection(actualSection-1);}}>Sair</Button>
     </>
   );
 }
