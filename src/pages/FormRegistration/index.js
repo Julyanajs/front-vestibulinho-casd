@@ -85,9 +85,9 @@ function FormRegistration({ idCourse }) {
         setFormData({...formData, disabledButton: false, blockPage3: false });
       }
 
-      if (actualSection === 4 && formData.exemptionRequest) {
-        if ((formData.exemptionRequest === "nao") 
-            || (formData.exemptionRequest === "sim" && formData.exemptionJustification && formData.exemptionJustification !== "")) {
+      if (actualSection === 4 && formData.exemptionStatus) {
+        if ((formData.exemptionStatus === "notRequested") 
+            || (formData.exemptionStatus === "analysis" && formData.exemptionJustification && formData.exemptionJustification !== "")) {
                 setFormData({...formData, disabledButton: false, blockPage4: false });
             }
       }
@@ -132,8 +132,8 @@ function FormRegistration({ idCourse }) {
         setFormData({...formData, disabledButton: true, blockPage3: true });
       }
       if (actualSection === 4 && 
-        (!formData.exemptionRequest || formData.exemptionRequest === ""
-        || (formData.exemptionRequest === "sim" && !formData.exemptionJustification))) {
+        (!formData.exemptionStatus || formData.exemptionStatus === ""
+        || (formData.exemptionStatus === "analysis" && !formData.exemptionJustification))) {
             setFormData({...formData, disabledButton: true, blockPage4: true });
       }
     }
@@ -212,7 +212,14 @@ function FormRegistration({ idCourse }) {
     }
     
     if(actualSection === sections.length-2) {
-        console.log("oi");
+        // Tratar dados "outros"
+        if (formData.kinship === "Outro")
+          formData["kinship"] = formData["otherKinship"];
+        if (formData.school === "Outra")
+          formData["school"] = formData["otherSchool"];
+        if (formData.wayPS === "Outro")
+          formData["wayPS"] = formData["otherWay"];
+
         const { name, rg, cpf, email, privateSpace, registrationFee } = formData; // ------- [TODO] IR ADICIONANDO CAMPOS QDE CADA SECTION QUE SERÃO SALVOS
         const dataToSave = { name, rg, cpf, email, privateSpace, registrationFee };
         console.log('DADOS A SEREM SALVOS NO BANCO', formData);
