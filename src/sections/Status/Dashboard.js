@@ -38,19 +38,19 @@ function Dashboard({ idCourse }) {
   // Informações de status do candidato
   // Ajustar para buscar no DB
   const [status, setStatus] = useState({
-    name: candidateData.name,
-    registrationStatus: candidateData.candidateStatus.registrationStatus,
-    exemptionStatus: candidateData.candidateStatus.exemptionStatus === true ? "exempted" : "notExempted",
-    roomId: candidateData.candidateStatus.roomId,
-    testPresence: candidateData.candidateStatus.testPresence,
-    grade: candidateData.candidateStatus.grade,
-    privateSpace: candidateData.candidateStatus.privateSpace,
-    esStatus: candidateData.candidateStatus.esStatus,
-    esPresence: candidateData.candidateStatus.esPresence,
-    esDate: candidateData.candidateStatus.esData,
-    esTime: candidateData.candidateStatus.esTime,
-    esResult: candidateData.candidateStatus.esResult,
-    enrollStatus: candidateData.candidateStatus.enrollStatus
+    // name: candidateData.name,
+    // registrationStatus: candidateData.candidateStatus.registrationStatus,
+    // exemptionStatus: candidateData.candidateStatus.exemptionStatus === true ? "exempted" : "notExempted",
+    // roomId: candidateData.candidateStatus.roomId,
+    // testPresence: candidateData.candidateStatus.testPresence,
+    // grade: candidateData.candidateStatus.grade,
+    // privateSpace: candidateData.candidateStatus.privateSpace,
+    // esStatus: candidateData.candidateStatus.esStatus,
+    // esPresence: candidateData.candidateStatus.esPresence,
+    // esDate: candidateData.candidateStatus.esData,
+    // esTime: candidateData.candidateStatus.esTime,
+    // esResult: candidateData.candidateStatus.esResult,
+    // enrollStatus: candidateData.candidateStatus.enrollStatus
   });
 
   const [buttons, setButtons] = useState({ bttnRegistrationStatus: false, bttnExemption: false, bttnRoom: false, bttnTestPresence: false, bttnGrade: false, bttnPrivateSpace: false, bttnEsStatus: false, bttnEsPresence: false, bttnEsResult: false, bttnEnroll: false });
