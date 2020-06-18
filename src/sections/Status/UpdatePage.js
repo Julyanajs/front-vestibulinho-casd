@@ -66,7 +66,7 @@ function UpdatePage({ idCourse }) {
         delete candidateData.additionalInfo["createdAt"]
         delete candidateData.additionalInfo["id"]
         delete candidateData.additionalInfo["__v"]
-        delete candidateData.candidateStatus
+        //delete candidateData.candidateStatus
 
         const updateCandidate = await api.put('/candidate/updateCandidate',
             JSON.stringify(candidateData), { headers: { 'Content-Type': 'application/json'}}  
@@ -82,6 +82,7 @@ function UpdatePage({ idCourse }) {
         <form onSubmit={handleSubmit}>
         {final}
         <Button>Atualizar</Button>
+        <Button onClick={() => {localStorage.clear(); setActualSection(actualSection-1);}}>Voltar</Button>
         </form>
         </>
     );
