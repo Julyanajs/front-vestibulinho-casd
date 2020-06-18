@@ -2,13 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import CandidateStatusContext from '../../pages/CandidateStatus/context';
 import { Button, SpanButton } from '../../pages/CandidateStatus/styles';
 
-function Login() {
-  //TODO - sobre o "esqueci o código de acesso" (já alinhado com o back)
-  // se a pessoa clica em "esqueci o código de acesso", abre um input p ela inserir o rg já cadastrado
-  //gera uma requisição pro back end q vai mandar um novo código pro email cadastrado
-  //a resposta dessa requisição - se for sucesso - retorna o email pra ql o código foi enviado
-  //colocar em tela como feedback pro usuário
-  
+function Login() {  
   const [errors, setErrors] = useState({});
   const [showCode, setShowCode] = useState(false);
   const { handleLogin, loginData, setLoginData, setActualSection } = useContext(CandidateStatusContext);
