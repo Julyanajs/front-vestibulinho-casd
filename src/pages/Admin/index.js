@@ -5,6 +5,7 @@ import UploadButton from '../../components/UploadButton';
 import RoomInput from '../../components/RoomInput';
 import Login from '../../sections/Admin/Login';
 import DisplayData from '../../sections/Admin/DisplayData';
+import api from '../../services/api';
 
 const infosCourse = [
   {
@@ -24,6 +25,7 @@ function Admin({ idCourse }) {
   const sections = [
     <Login />,
     <>
+      <button onClick={() => handleExcelDownload('/candidate/exportCandidate/all')}>Baixar excel</button>
       <UploadButton />
       <RoomInput />
       <DisplayData />
@@ -34,6 +36,12 @@ function Admin({ idCourse }) {
     if(localStorage.getItem('admin') !== null)
       setActualSection(1);
   }, []);
+
+  async function handleExcelDownload(route) {
+    await api.get(route)
+      .then(res => window.open(res.request.responseURL))
+      .catch(error => console.log(error));
+  }
 
   function handleLogin() {
     if(loginData.accessCode && loginData.accessCode !== "") {
