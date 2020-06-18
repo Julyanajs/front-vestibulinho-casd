@@ -82,7 +82,7 @@ function stableSort(array, comparator) {
 // Colunas da tabela principal
 const columns = [
     { id: 'name', label: 'Nome', minWidth: 200, align: 'center' },
-    { id: 'exemption', label: 'Isenção', minWidth: 150, align: 'center',
+    { id: 'exemptionStatus', label: 'Isenção', minWidth: 150, align: 'center',
       format: (value) => {switch(value) {
         case "analysis": return 'Em análise';  
         case "exempted": return 'Isento';
@@ -165,7 +165,7 @@ const personalColumns = [
 
 // 5ª tabela: Dados de escolaridade
 const schoolColumns = [
-    { id: 'specialNecessity', label: 'Necessidade especial', minWidth: 200, align: 'center' },
+    { id: 'whichNecessity', label: 'Necessidade especial', minWidth: 200, align: 'center' },
     { id: 'schooling', label: 'Escolaridade', minWidth: 250, align: 'center' },
     { id: 'kindSchool', label: 'Tipo de escola', minWidth: 150, align: 'center' },
     { id: 'school', label: 'Escola', minWidth: 250, align: 'center' },
@@ -181,33 +181,6 @@ const justificationColumns = [
 
 const additionalData = [mainDataColumns, statusColumns, addressColumns, personalColumns, schoolColumns, justificationColumns];
 
-// Fazer integração com o db
-
-function createData(name, exemption, grade, esStatus, esResult, enrollStatus) {
-    return { name, exemption, grade, esStatus, esResult, enrollStatus,
-             candidateNumber: 2100001, rg: '2009009022079', cpf: '06411389381', email: 'italorennanls@gmail.com', privateSpace: "Pardo",
-             roomId: "1G1", testPresence: true, esPresence: true, esDate: "11 de novembro", esTime: "19:30",
-             street: "Rua Papi Junior", numberStreet: 2418, additionalAddress: "", neighborhood: "Bela Vista", cep: 60441690, city: "Fortaleza", state: "CE",
-             gender: "Masculino", birthDate: "10/02/1999", relativeName: "Regina", kinship: "Mãe" /* Adaptar na chamada do db para pegar otherKinship */, phone1: "12981361391", phone2: "",
-             specialNecessity: "Não" /* Adaptar na chamada do db para pegar whichNecessity */, schooling: "Cursando o 8º ano do Ensino Fundamental", kindSchool: "Pública Federal", school: "ADVENTISTA DE SAO JOSE DOS CAMPOS COLEGIO", wayPS: "Redes sociais" /* Adaptar para buscar others no db */,
-             exemptionJustification: "Aqui vai estar escrito o motivo do pedido de isenção." };
-}
-
-const rows = [
-    createData("Italo Rennan", "analysis", 40, true, true, true),
-    createData("Zeus Gato", "notExempted", 50, true, false, false),
-    createData("Peter Doguinho", "notRequired", 60, false, false, false),
-    createData("Luisito", "notRequired", "", false, false, false),
-    createData("Leite", "exempted", 2, true, false, false),
-    createData("Teste", "exempted", 20, false, false, false),
-    createData("Gustavo Mioto", "notRequired", 40, true, true, true),
-    createData("Marilia Mendonca", "analysis", 25, false, false, false),
-    createData("Jorge", "analysis", 20, true, false, false),
-    createData("Mateus", "notExempted", "", true, false, false),
-    createData("Maiara", "analysis", 58, false, false, false),
-    createData("Maraisa", "notRequired", 20, true, true, false),
-];
-
 function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false);
@@ -222,7 +195,14 @@ function Row(props) {
                     </IconButton>
                 </BodyTableCell>
                 {columns.map((column) => {
-                    const value = row[column.id];
+                    var value = "";
+                    switch (column.id) {
+                        case 'name':
+                            value = row[column.id]; break;
+                        case 'exemptionStatus': case 'grade': case 'esStatus': case 'esResult': case 'enrollStatus':
+                            value = row.candidateStatus[column.id]; break;
+                        default: break;
+                    }
                     return (
                         <BodyTableCell key={column.id} align={column.align}>
                             {column.format ? column.format(value) : value}
@@ -254,7 +234,18 @@ function Row(props) {
                                         <TableBody>
                                             <TableRow>
                                                 {table.map((column) => {
-                                                    const value = row[column.id];
+                                                    var value = "";
+                                                    switch (column.id) {
+                                                        case 'candidateNumber': case 'rg': case 'cpf': case 'email':
+                                                            value = row[column.id]; break;
+                                                        case 'roomId': case 'testPresence': case 'esPresence': case 'esDate': case 'esTime': case 'exemptionJustification':
+                                                            value = row.candidateStatus[column.id]; break;
+                                                        case 'street': case 'numberStreet': case 'additionalAddress': case 'neighborhood': case 'cep': case 'city': case 'state':
+                                                            value = row.additionalInfo.address[column.id]; break;
+                                                        case 'privateSpace': case 'gender': case 'birthDate': case 'relativeName': case 'kinship': case 'phone1': case 'phone2': case 'whichNecessity': case 'schooling': case 'kindSchool': case 'school': case 'wayPS':
+                                                            value = row.additionalInfo[column.id]; break;
+                                                        default: break;
+                                                    }
                                                     return (
                                                         <BodyTableCell key={column.id} align={column.align}>
                                                             {column.format ? column.format(value) : value}
@@ -280,14 +271,14 @@ function DisplayData() {
     const [orderBy, setOrderBy] = useState('name');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    //const [rows, setRows] = useState([]);
+    const [rows, setRows] = useState([]);
 
     useEffect(() => {
 				async function candidatesPerPage() {
                     //await api.get(`/candidate/getPage?limit=${rowsPerPage}&page=${page+1}`)
                     await api.get(`/candidate/getAll`)
-                    .then(res => {console.log('RESULTADO', res.data.candidate);})
-                                  //setRows(res.data.candidate);})
+                    .then(res => {console.log('RESULTADO', res.data.candidate);
+                                  setRows(res.data.candidate);})
 					.catch(error => console.log('ERRO', error));
 				}
                 candidatesPerPage();
