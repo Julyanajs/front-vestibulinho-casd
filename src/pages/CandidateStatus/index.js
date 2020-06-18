@@ -20,7 +20,6 @@ const infosCourse = [
 function CandidateStatus({ idCourse }) {
   const [actualSection, setActualSection] = useState(0);
   const [loginData, setLoginData] = useState({});
-  // const [candidateData, setCandidateData] = useState({});
 
   const sections = [
     <Login />,
