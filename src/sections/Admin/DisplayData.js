@@ -16,6 +16,11 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import SearchIcon from '@material-ui/icons/Search';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 const processSituation = 5;
 
@@ -232,7 +237,7 @@ function Row(props) {
                             <Title>Outros dados</Title>
                             {additionalData.map((table) => {
                                 return (
-                                    <Table size="small">
+                                    <Table key={table.toString()} size="small">
                                         <TableHead>
                                             <TableRow>
                                                 {table.map((column) => (
@@ -278,15 +283,39 @@ function DisplayData() {
 
     useEffect(() => {
 				async function candidatesPerPage() {
-					await api.get(`/candidate/getPage?limit=${rowsPerPage}&page=${page+1}`)
-					.then(res => console.log('RESULTADO', res.data.candidate))
+                    //await api.get(`/candidate/getPage?limit=${rowsPerPage}&page=${page+1}`)
+                    await api.get(`/candidate/getAll`)
+                    .then(res => console.log('RESULTADO', res.data.candidate))
 					.catch(error => console.log('ERRO', error));
 				}
 				candidatesPerPage();
 		}, [page]);
     
-      const handleChangePage = (event, newPage) => {
+    const handleChangePage = (event, newPage) => {
         setPage(newPage);
+    };
+
+    const [open, setOpen] = useState(false);
+
+    // Filtros
+    const [searchField, setSearchField] = useState("");
+    const [searchColumn, setSearchColumn] = useState('name');
+
+    const filter = (query) => {
+        if (searchColumn === 'esStatus' || searchColumn === 'esResult' || searchColumn === 'enrollStatus') 
+            return rows.filter(el => (el[searchColumn] === true ? 'aprovado' : 'reprovado').indexOf(query.toLowerCase()) > -1);
+        if (searchColumn === 'exemption')
+            return rows.filter(el => (el.exemption === 'analysis' ? 'em análise' : (el.exemption === 'exempted' ? 'isento' : (el.exemption === 'notExempted' ? 'não isento' : (el.exemption === 'notRequired' ? 'não solicitado' : '')))).indexOf(query.toLowerCase()) > -1);
+        return rows.filter(el => el[searchColumn].toString().toLowerCase().indexOf(query.toString().toLowerCase()) > -1);
+    };
+    const filteredRows = filter(searchField);
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleOpen = () => {
+        setOpen(true);
     };
 
     const handleChangeRowsPerPage = (event) => {
@@ -303,6 +332,33 @@ function DisplayData() {
     return (
         <>
         <Paper className={classes.root}>
+            <TextField 
+            placeholder="Buscar..."
+            value={searchField}
+            onChange={e => {setSearchField(e.target.value); setPage(0);}}
+            InputProps={{
+                startAdornment: (
+                    <InputAdornment position="start">
+                        <SearchIcon />
+                    </InputAdornment>
+                ),
+            }}
+            />
+            <Select 
+                open={open}
+                onClose={handleClose}
+                onOpen={handleOpen}
+                value={searchColumn}
+                onChange={e => setSearchColumn(e.target.value)}
+            >
+                <MenuItem value=""></MenuItem>
+                <MenuItem value="name">Nome</MenuItem>
+                <MenuItem value="exemption">Isenção</MenuItem>
+                <MenuItem value="grade">Nota</MenuItem>
+                <MenuItem value="esStatus">Resultado da prova</MenuItem>
+                <MenuItem value="esResult">Resultado da ES</MenuItem>
+                <MenuItem value="enrollStatus">Resultado final</MenuItem>
+            </Select>
             <TableContainer className={classes.container}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -332,7 +388,7 @@ function DisplayData() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {stableSort(rows, getComparator(order, orderBy)).slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((row) => (
+                        {stableSort(filteredRows, getComparator(order, orderBy)).slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((row) => (
                             <Row key={row.name} row={row} />
                         ))}
                     </TableBody>
