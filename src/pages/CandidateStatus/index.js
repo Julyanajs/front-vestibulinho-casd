@@ -3,6 +3,7 @@ import CandidateStatusContext from './context';
 import { Container } from './styles';
 import Login from '../../sections/Status/Login';
 import Dashboard from '../../sections/Status/Dashboard';
+import api from '../../services/api';
 
 const infosCourse = [
   {
@@ -18,32 +19,40 @@ const infosCourse = [
 function CandidateStatus({ idCourse }) {
   const [actualSection, setActualSection] = useState(0);
   const [loginData, setLoginData] = useState({});
+  const [candidate, setCandidate] = useState({});
 
   const sections = [
     <Login />,
-    <Dashboard idCourse={idCourse}/>
+    <Dashboard idCourse={idCourse} />
   ];
   
   useEffect(() => {
-    if(localStorage.getItem('candidate') !== null)
+    if(localStorage.getItem('candidate') !== null) {
       setActualSection(1);
+      //salvar dados do GET em candidate - puxar pelo _id salvo no localStorage
+    }
   }, []);
 
-  function handleLogin() {
-    if(loginData.rg && loginData.rg !== "" && loginData.accessCode && loginData.accessCode !== "") {
-      console.log('[GET] Validação do login no banco.');
-      // --- SE SUCESSO: _Id do candidato é salvo no localStorage
-      // --- TEMPORÁRIO: const _Id
-      const _Id = "123456";
-      localStorage.setItem('candidate', _Id);
-
-      // --- SE SUCESSO:
-      if(localStorage.getItem('candidate') === _Id) 
+  async function handleLogin() {
+    // if(loginData.rg && loginData.rg !== "" && loginData.accessCode && loginData.accessCode !== "") {
+      const respGET = await api.get(`/candidate/checkCandidate?rg=${loginData.rg}`);
+      
+      if(!respGET.data || respGET.data === "") {
+        alert('Não existe candidato com esse RG.');
+      } else {
+        console.log('CANDIDATO', respGET.data);
         setActualSection(actualSection+1);
-        setLoginData({});
-    } else {
-      console.log('[ERRO] Erro de validação - RG ou código de acesso');
-    }
+        setCandidate(respGET.data.candidate);
+        console.log('AAA candidate', respGET.data.candidate);
+        localStorage.setItem('candidate', respGET.data.candidate._id);
+        console.log('teste', localStorage.getItem('candidate'));
+      }
+
+      setLoginData({});
+    // } 
+    // else {
+    //   console.log('[ERRO] Erro de validação - RG ou código de acesso');
+    // }
   }
 
   return (

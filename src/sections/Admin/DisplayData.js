@@ -276,16 +276,14 @@ function DisplayData() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
-    useEffect(
-			() => {
-			async function candidatesPerPage() {
-				await api.get(`/candidate/getPage?limit=${rowsPerPage}&page=${page+1}`)
-				.then(res => console.log('RESULTADO', res.data.candidate))
-				.catch(error => console.log('ERRO', error));
-			}
-			candidatesPerPage();
-			}
-			, [page]);
+    useEffect(() => {
+				async function candidatesPerPage() {
+					await api.get(`/candidate/getPage?limit=${rowsPerPage}&page=${page+1}`)
+					.then(res => console.log('RESULTADO', res.data.candidate))
+					.catch(error => console.log('ERRO', error));
+				}
+				candidatesPerPage();
+		}, [page]);
     
       const handleChangePage = (event, newPage) => {
         setPage(newPage);

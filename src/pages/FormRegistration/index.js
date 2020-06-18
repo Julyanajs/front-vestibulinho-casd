@@ -146,7 +146,7 @@ function FormRegistration({ idCourse }) {
 
   async function handleNextButton() {
     if (!formData.disabledButton && formData.disabledButton === false) {
-      if(actualSection === 1 ){
+      if(actualSection === 1){
         const respGET = await api.get(`/candidate/checkCandidate?rg=${formData.rg}`);
         if(!respGET.data){
            setActualSection(actualSection+1);
