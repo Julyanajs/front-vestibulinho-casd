@@ -15,7 +15,7 @@ export const Container = styled.div`
   margin: 0 auto;
   padding: 5vw;
   background-color: ${blueCASD};
-  font-family: 'Montserrat';
+  font-family: Montserrat;
 
   display: flex;
   flex-direction: column;
@@ -26,7 +26,7 @@ export const Container = styled.div`
   }
 
   h1 {
-    font-family: 'Lobster';
+    font-family: Lobster;
     color: ${yellowCASD};
     margin-block-start: 0.5em;
     margin-block-end: 0.5em;
@@ -35,7 +35,7 @@ export const Container = styled.div`
   }
 
   h3 {
-    font-family: 'Lobster';
+    font-family: Lobster;
     color: ${yellowCASD};
     margin-block-start: 0.5em;
     margin-block-end: 1em;
@@ -98,6 +98,7 @@ export const Container = styled.div`
 
   select {
     font-family: Montserrat;
+    
     background-color: white;
     color: ${grayCASD};
     margin-block-start: 0.5em;
@@ -114,24 +115,24 @@ export const MainHeaderTableCell = styled(TableCell)`
   @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
   background-color: #dcdcdc;
-  font-family: 'Montserrat';
-  font-weight: 900;
+  font-family: Montserrat !important;
+  font-weight: 900 !important;
 `;
 
 export const SubHeaderTableCell = styled(TableCell)`
   background-color: #f5f5f5;
-  font-family: 'Montserrat';
-  font-weight: 900;
+  font-family: Montserrat !important;
+  font-weight: 900 !important;
 `;
 
 export const BodyTableCell = styled(TableCell)`
-  font-family: 'Montserrat';
+  font-family: Montserrat !important;
 `;
 
 export const Title = styled.div`
-  font-family: 'Montserrat';
+  font-family: Montserrat !important;
   font-size: 15px;
-  font-weight: 900;
+  font-weight: 900 !important;
   margin-block-end: 10px;
 `;
 
